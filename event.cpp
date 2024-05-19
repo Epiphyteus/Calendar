@@ -91,7 +91,7 @@ void event::display(){
     cout << "Event Name: " << name << endl
          << "Description: " << desc << endl
          << "Happening: " << start << " through " << end << endl
-         << "Cost of Admission: " << price << endl
+         << "Cost of Admission: $" << price << endl
          << "Review: " << review << endl
          << "Guest Speaker: " << guest << endl;
 
@@ -99,7 +99,9 @@ void event::display(){
 
 //checks if an event member *to be specified* is a match, takes a target phrase as a param 
 bool event::is_match(char *&to_match){
-    return true;
+    if(strcmp(to_match, name) == 0)
+        return true;
+    return false;
 }
 
 

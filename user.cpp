@@ -23,9 +23,9 @@ void welcome(){
      ██║     ██╔══██║██║     ██╔══╝  ██║╚██╗██║██║  ██║██╔══██║██╔══██╗    
      ╚██████╗██║  ██║███████╗███████╗██║ ╚████║██████╔╝██║  ██║██║  ██║    
       ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ 
-               This program stores events and their details,
-                  to ensure you don't spend your whole life
-                        sitting behind a desk.)" << endl;
+               This program stores events and their details.
+                           Get out and do stuff. 
+             Don't spend your whole life sitting behind a desk.)" << endl;
 }
 
 /*display a menu of the program's capabilities 
@@ -45,14 +45,16 @@ bool menu(cal &events){
     cin.ignore(100, '\n');
 
         if('E' == toupper(choice)){ //Enter an item
-            cout << "Item entry occurs here" << endl;
+            cout << endl;
             events.get_events();
         }
         else if('S' == toupper(choice)){ //Search for an item
-            cout << "Search functionality occurs here" << endl;
+            cout << endl;
+            if(!events.search())
+                cout << "\nNo matches found for that event." << endl;
         }
         else if('D' == toupper(choice)){ //Display All
-            cout << "Display all calendar items occurs here" << endl;
+            cout << endl;
             events.display_events();
         }
         else if('Q' == toupper(choice)){ //Quit

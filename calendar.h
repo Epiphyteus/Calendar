@@ -39,7 +39,7 @@ class cal{
         ~cal();
         void get_events();
         void display_events();
-        void search();
+        bool search();
         void remove();
     private:
         node *head;
