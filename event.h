@@ -17,17 +17,18 @@ An event will include the following information:
 8. Start time
 */
 
+#include <iomanip>
 #include <iostream>
 #include <cctype>
 #include <cstring>
 #include <cmath>
+#include <fstream>
 
 const int SHORT{46};
 const int LONG{501};
 
 
-class event{
-    public:
+struct event{
         event();
         ~event();
         void get(char *&array, const int size);
@@ -36,15 +37,12 @@ class event{
         bool is_match(char *&to_match);
         bool yn(char &yes_no);
 
-
-    private:
         char *name;
         char *desc;
         char *start;
         char *end;
         float price;
         char *review;
-        char oneday;
         char *guest;
 };
 

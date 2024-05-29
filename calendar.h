@@ -30,17 +30,22 @@ of the item class type.
 //node structure for linear linked list!
 struct node{
     event data;
-    node *next;
+    node *link;
 };
 
-class cal{
+class calendar{
     public:
-         cal();
-        ~cal();
+         calendar();
+        ~calendar();
+        void remove_all(node *&head);
         void get_events();
+        void display_events(node *head);
         void display_events();
-        bool search();
-        void remove();
+        void search();
+        void rec_search(char *find, node *&prev, node *&current);
+        bool remove(node *&to_remove);
+        void load_events();
+        void save();
     private:
         node *head;
 };

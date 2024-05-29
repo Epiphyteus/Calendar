@@ -9,7 +9,6 @@ The data members are:
         char *end;
         float price;
         char *review;
-        char oneday;
 
 */
 
@@ -23,9 +22,8 @@ event::event(){
     desc = nullptr;
     start = nullptr;
     end = nullptr;
-    price = 0.0;
+    price = 0.00;
     review = nullptr;
-    oneday = '\0';
     guest = nullptr;
 }
 
@@ -59,6 +57,7 @@ void event::get(char *&array, const int size){
 
 //reads in one event
 void event::read(){
+    char oneday{'\0'};
     cout << "Enter an event name.\n>";
     get(name, SHORT);
     cout << "Enter a brief description of the event.\n>";
@@ -71,10 +70,10 @@ void event::read(){
         get(end, SHORT);
     }
     else{
-        end = new char[strlen(start)];
+        end = new char[strlen(start) +1];
         strcpy(end, start);
     }
-    cout << "Enter the price of admission to the event. (i.e. 12.99)\n> $";
+    cout << "Enter the price of admission to the event. (i.e. 12.99)\n>$";
     cin >> price;
     cin.ignore(100, '\n');
     cout << "Enter a review of the event based on past attendance." << endl
@@ -91,7 +90,7 @@ void event::display(){
     cout << "Event Name: " << name << endl
          << "Description: " << desc << endl
          << "Happening: " << start << " through " << end << endl
-         << "Cost of Admission: $" << price << endl
+         << "Cost of Admission: $" << setprecision(2) << fixed << price << endl
          << "Review: " << review << endl
          << "Guest Speaker: " << guest << endl;
 

@@ -5,12 +5,13 @@
 
 //global functions to deal with user interaction
 void welcome();
-bool menu(cal &events);
+bool menu(calendar &events);
 
 using namespace std;
 
 int main(){
-    cal events;
+    calendar events;
+    events.load_events();
     welcome();
     while(menu(events));
 
