@@ -8,6 +8,7 @@ using namespace std;
 
 //display a welcome message to the user and explain the program's purpose.
 void welcome(){
+    char choice{'\0'};
     cout << "\033[2J\033[1;1H" << endl;
     cout << R"(
              ███████╗██╗   ██╗███████╗███╗   ██╗████████╗
@@ -26,6 +27,23 @@ void welcome(){
                This program stores events and their details.
                            Get out and do stuff. 
              Don't spend your whole life sitting behind a desk.)" << endl;
+/*
+    cout << endl << "Search and sort events (A)lphabetically or by (D)ate?\n>";
+    cin >> choice;
+    cin.ignore(100, '\n');
+    while('A' != toupper(choice) && 'D' != toupper(choice)){
+        cout << "Please make a valid selection. ('A' or 'D')" << endl;
+        cin >> choice;
+        cin.ignore(100, '\n');
+    }
+    if('A' == toupper(choice)){
+        cout << endl << "Events will be sorted and searched alphabetically by name." << endl;
+    }
+    else if('D' == toupper(choice)){
+        cout << endl << "Events will be sorted and searched chronologically." << endl;
+    }
+*/
+
 }
 
 /*display a menu of the program's capabilities 
@@ -46,7 +64,8 @@ bool menu(calendar &events){
 
         if('E' == toupper(choice)){ //Enter an item
             cout << "\033[2J\033[1;1H" << endl;
-            events.get_events();
+            //events.get_events();
+            events.read_events();
         }
         else if('S' == toupper(choice)){ //Search for an item
             cout << "\033[2J\033[1;1H" << endl;

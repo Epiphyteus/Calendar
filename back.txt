@@ -1,5 +1,4 @@
 Air Show|Cool planes!|5/24/2024|5/26/2024|100.00|Really excellent.|Neil Armstrong
-Camping Trip|Yay tents!|10/6/2024|10/10/2024|150.00|Always great. Go to Hebo Lake.|NONE
 Dog Show|Bark!|9/4/2024|9/4/2024|20.00|Such show, very dog.|Mila Ma'am
 Farmer's Market|Veggies!|5/9/2024|5/9/2024|0.00|It's summer!!|Live Music
 Moto Show|Braaaaap!|7/10/2024|7/14/2024|350.00|So cool, love the bikes.|NONE

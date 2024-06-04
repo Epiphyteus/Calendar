@@ -33,14 +33,21 @@ struct event{
         ~event();
         void get(char *&array, const int size);
         void read();
+        void month_switch(int month);
         void display();
         bool is_match(char *&to_match);
         bool yn(char &yes_no);
 
         char *name;
         char *desc;
-        char *start;
-        char *end;
+        //char *start;
+        //char *end;
+        int start_month;
+        int start_day;
+        int start_year;
+        int end_month;
+        int end_day;
+        int end_year;
         float price;
         char *review;
         char *guest;

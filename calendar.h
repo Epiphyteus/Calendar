@@ -37,16 +37,22 @@ class calendar{
     public:
          calendar();
         ~calendar();
-        void remove_all(node *&head);
         void get_events();
-        void display_events(node *head);
         void display_events();
         void search();
-        void rec_search(char *find, node *&prev, node *&current);
         bool remove(node *&to_remove);
         void load_events();
         void save();
+        void read_events();
+        void capitalize(char chars[]);
+        void rm_punct(char chars[], char new_word[]);
+        void lower_chars(char chars[]);
     private:
+        //void rec_search(char *find, node *&prev, node *&current);
+        void rec_search_V1(char *find, node *&head);
+        void ordered_insert(node *&head, node *&temp);
+        void remove_all(node *&head);
+        void display_events(node *head);
         node *head;
 };
 

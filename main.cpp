@@ -11,9 +11,10 @@ using namespace std;
 
 int main(){
     calendar events;
-    events.load_events();
     welcome();
+    events.load_events();
     while(menu(events));
+    events.save();
 
     return 0;
 }

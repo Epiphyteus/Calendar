@@ -35,45 +35,58 @@ void calendar::remove_all(node *&head){
 }
     
 
-//destructor - automaticalendarly deallocates nodes in the lll
+//destructor - automatically deallocates nodes in the lll
 calendar::~calendar(){
     remove_all(head);
 }
 
-/*getter - reads in events from the user until they want to stop
-essentially the "build" function for the lll
-*/
-void calendar::get_events(){
+
+//adds events in sorted order. 
+void calendar::read_events(){
     char again{'\0'};
     do{
-
         node *temp{new node};
+        char *punct;
         temp -> data.read();
+        punct = new char[strlen(temp -> name)+1];
+        strcpy(punct, temp -> name);
+
         temp -> link = nullptr;
-        if(!head){
-            head = temp;
-        }
-        else if(!head -> link){
-            head -> link = temp;
-        }
-        else{
-            node *current{head};
-            while(current -> link)
-                current = current -> link;
-            current -> link = temp;
-        } 
+        ordered_insert(head, temp);
         cout << "Again?\n>";
         cin >> again;
-        cin.ignore(100, '\n');
+        cin.ignore(100, '\n'); 
     }while('Y' == toupper(again));
-
-        
 }
 
-//main display definition, no args, calendarls recursive display
+//recursively finds the spot a new item belongs and adds it.
+void calendar::ordered_insert(node *&head, node *&temp){
+    if(head && strcmp(temp -> data.name, head -> data.name) < 0){
+        temp -> link = head;
+        head = temp;
+        return;
+    }
+    if(head && strcmp(temp -> data.name, head -> data.name) < 0){
+        temp -> link = head -> link;
+        head -> link = temp;
+        return;
+    }
+    if(!head){
+        head = temp;
+        temp -> link = head -> link;
+        return;
+    }
+    ordered_insert(head -> link, temp);    
+}
+/*    
+void calendar::date_search(){
+    cout << "Enter 
+*/
+
+//main display definition, no args, calls recursive display
 void calendar::display_events(){
     if(!head){
-        cout << endl << "No events currently in your calendarendar." << endl;
+        cout << endl << "No events currently in your calendar." << endl;
         return;
     }
     display_events(head);
@@ -98,13 +111,13 @@ void calendar::search(){
     cout << endl << "Enter an event title to search for.\n>";
     current -> data.get(find, SHORT); //get the event name, put in 'find'
 
-    (rec_search(find, prev, current));
+    (rec_search_V1(find, head));
     delete [] find;
     find = nullptr;
 }
 
-
-//recursive search
+/*
+//ugly recursive search
 void calendar::rec_search(char *find, node *&prev, node*&current){
     node *temp;
     
@@ -128,8 +141,22 @@ void calendar::rec_search(char *find, node *&prev, node*&current){
         (rec_search(find, current, current -> link));
     return;
 }
+*/
 
-//removes the item at just one node found when searching. calendarled within search.
+void calendar::rec_search_V1(char *find, node *&head){
+    if(!head) return;
+    if(head -> data.is_match(find)){
+        cout << endl << "Match Found!" << endl;
+        head -> data.display();
+        node *temp = head -> link;
+        if(remove(head))
+            head = temp;
+        return;
+    }
+    rec_search_V1(find, head -> link);
+}
+
+//removes the item at just one node found when searching. called within search.
 bool calendar::remove(node *&to_remove){
     char choice{'\0'};
 
@@ -145,6 +172,7 @@ bool calendar::remove(node *&to_remove){
     if('D' == toupper(choice)){
         delete to_remove;
         to_remove = nullptr;
+
         cout << endl << "Item deleted." << endl;
         return true;
     }
@@ -174,14 +202,18 @@ void calendar::load_events(){
             filein.ignore(100, '|');
             add -> data.desc = new char[strlen(temp)+1];
             strcpy(add -> data.desc, temp);
-            filein.get(temp, LONG, '|');
+            filein >> add -> data.start_month;
+            filein.ignore(100, '/');
+            filein >> add -> data.start_day;
+            filein.ignore(100, '/');
+            filein >> add -> data.start_year;
             filein.ignore(100, '|');
-            add -> data.start = new char[strlen(temp)+1];
-            strcpy(add -> data.start, temp);
-            filein.get(temp, LONG, '|');
+            filein >> add -> data.end_month;
+            filein.ignore(100, '/');
+            filein >> add -> data.end_day;
+            filein.ignore(100, '/');
+            filein >> add -> data.end_year;
             filein.ignore(100, '|');
-            add -> data.end = new char[strlen(temp)+1];
-            strcpy(add -> data.end, temp);
             filein >> add -> data.price;
             filein.ignore(100, '|');
             filein.get(temp, LONG, '|');
@@ -192,16 +224,8 @@ void calendar::load_events(){
             filein.ignore(100, '\n');
             add -> data.guest = new char[strlen(temp)+1];
             strcpy(add -> data.guest, temp);
-            if(!head)
-                head = add;
-            else if(!head -> link)
-                head -> link = add;
-            else{
-                node *current{head};
-                while(current -> link)
-                    current = current -> link;
-                current -> link = add;
-            }
+            ordered_insert(head, add);
+
             filein.get(temp, LONG, '|');
             filein.ignore(100, '|'); 
         }
@@ -212,4 +236,73 @@ void calendar::load_events(){
 //saves to external file
 void calendar::save(){
     ofstream fileout;
+    node *current{head};
+    fileout.open("events.txt");
+    if(fileout){
+        while(current){
+            fileout << current -> data.name << '|'
+                    << current -> data.desc << '|'
+                    << current -> data.start_month << '/'
+                    << current -> data.start_day << '/'
+                    << current -> data.start_year << '|'
+                    << current -> data.end_month << '/'
+                    << current -> data.end_day << '/'
+                    << current -> data.end_year<< '|'
+
+                    /*
+                    << current -> data.start << '|'
+                    << current -> data.end << '|'
+                    */
+                    << setprecision(2) << fixed << current -> data.price << '|' 
+                    << current -> data.review << '|'
+                    << current -> data.guest << endl;
+            current = current -> link;
+        }
+        fileout.close();
+    }
 }
+
+
+
+
+//capitalize the first character of every word in a phrase array
+void calendar::capitalize(char chars[]){
+    int length{0}, g{0};
+    length = strlen(chars);
+    for(g = 0; g < length; g++)
+        chars[g] = tolower(chars[g]);
+    
+    for(g = 0; g < length; g++){
+        if(isblank(chars[g]))
+            chars[g+1] = toupper(chars[g+1]);  
+    }
+    chars[0] = toupper(chars[0]);
+}
+
+
+//remove punctuation from a word
+void calendar::rm_punct(char chars[], char new_word[]){
+    int len_chars{0};
+    int o{0}, k{0};
+    len_chars = strlen(chars);
+
+    for(k = 0, o = 0; k <= len_chars; ++k){
+        if(ispunct(chars[k]) == false){
+            new_word[o] = chars[k]; //similar proccess to separating words
+            ++o;
+            new_word[o+1] = '\0';
+        }
+    }
+}
+
+//convert a character array to lowercase
+//easy, just covert everything one by one
+void calendar::lower_chars(char chars[]){
+    int len_chars{0}, n{0};
+    len_chars = strlen(chars);
+
+    for(n = 0; n < len_chars; ++n){
+        chars[n] = tolower(chars[n]);
+    }
+}
+
