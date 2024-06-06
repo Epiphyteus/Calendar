@@ -48,8 +48,8 @@ void calendar::read_events(){
         node *temp{new node};
         char *punct;
         temp -> data.read();
-        punct = new char[strlen(temp -> name)+1];
-        strcpy(punct, temp -> name);
+        //punct = new char[strlen(temp -> name)+1];
+        //strcpy(punct, temp -> name);
 
         temp -> link = nullptr;
         ordered_insert(head, temp);
@@ -66,18 +66,13 @@ void calendar::ordered_insert(node *&head, node *&temp){
         head = temp;
         return;
     }
-    if(head && strcmp(temp -> data.name, head -> data.name) < 0){
-        temp -> link = head -> link;
-        head -> link = temp;
-        return;
-    }
     if(!head){
         head = temp;
-        temp -> link = head -> link;
         return;
     }
     ordered_insert(head -> link, temp);    
 }
+
 /*    
 void calendar::date_search(){
     cout << "Enter 
